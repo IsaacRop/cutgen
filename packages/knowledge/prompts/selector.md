@@ -32,7 +32,9 @@ POR QUÊ: <2-4 linhas>
 PADRÕES: [<id-do-padrao> (confiança), <id-do-padrao> (confiança)]
 RISCOS: <palavrão? corte de b-roll? ritmo?>
 ```
-Se houver 2-3 candidatos fortes, liste em ordem e marque o **recomendado**.
+Se houver 2-3 candidatos fortes, liste em ordem, cada um no formato acima. Marque
+o escolhido escrevendo `TRECHO (RECOMENDADO): start=...` **na própria linha do
+trecho** — não como nota separada no fim da resposta.
 
 ## Regras
 - Cite os padrões pelos IDs exatos de `knowledge/niches/<niche>/patterns/`. Se a base de padrões for fraca, diga confiança baixa em vez de inventar.
