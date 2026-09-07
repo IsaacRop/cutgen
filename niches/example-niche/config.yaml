@@ -1,0 +1,50 @@
+# Configuracao de exemplo — NAO e um nicho real, so demonstra o formato que
+# cada modulo (core/knowledge/agent) espera. Copie esta pasta pra
+# niches/<seu-nicho>/ e preencha com valores de verdade do seu proprio canal.
+
+niche: example-niche
+language: en
+
+download:
+  format: "bv*+ba/b"
+  merge_output_format: mp4
+  sort: "vcodec:h264,acodec:aac,res:1080"
+  cookies_from_browser: null   # ex.: firefox, chrome — so se a fonte exigir login
+  js_runtimes: null            # ex.: node — so se o downloader pedir
+
+transcribe:
+  model_size: small
+  sample_rate: 16000
+  chunk_seconds: 180
+
+render:
+  font: "Arial"
+  font_size: 90
+  primary_color: "&H00FFFFFF"
+  secondary_color: "&H000000FF"
+  outline_color: "&H00000000"
+  back_color: "&H96000000"
+  highlight_tag: "&H00FFFF&"
+  reset_tag: "&HFFFFFF&"
+  max_words: 3
+  max_chars: 13
+  gap_seconds: 0.6
+  swears: []                    # palavras a mascarar na legenda (audio intacto)
+  mask_from: "AI"
+  mask_to: "@1"
+  voice_lufs: -14.0
+  music_lufs: -26.0
+
+writer:
+  base_hashtags: ["#shorts", "#example"]
+
+publish:
+  category_id: "22"             # "People & Blogs" no YouTube
+  default_language: en
+  privacy: unlisted              # troque pra "public" quando for producao de verdade
+  made_for_kids: false
+
+agent:
+  min_sample_views: 100
+  min_samples: 3
+  min_ratio: 1.5
