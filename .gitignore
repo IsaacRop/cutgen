@@ -20,6 +20,7 @@ renders/
 
 # Banco local do agent
 *.duckdb
+*.sqlite3
 
 # Segredos e credenciais
 .env
