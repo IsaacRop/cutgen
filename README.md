@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="cutgen logo" width="140" />
+
 # cutgen
 
 **Motor genérico + agentes que aprendem padrões virais, para transformar
