@@ -1,0 +1,23 @@
+[project]
+name = "cutgen"
+version = "0.1.0"
+description = "Motor generico + agentes de curadoria/performance para cortes de video de qualquer nicho."
+requires-python = ">=3.11"
+dependencies = []
+
+# Este pyproject raiz nao empacota nada sozinho — ele so declara o workspace.
+# Cada pacote real (core, knowledge, agent, shared) tem seu proprio pyproject.toml
+# em packages/<nome>/, com suas proprias dependencias.
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+cutgen-core = { workspace = true }
+cutgen-knowledge = { workspace = true }
+cutgen-agent = { workspace = true }
+cutgen-shared = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+
+# uv
+uv.lock.tmp
+
+# Dados locais / midia (nunca versionar clipe/video bruto)
+*.mp4
+*.mp3
+*.wav
+downloads/
+renders/
+
+# Banco local do agent
+*.duckdb
+
+# Segredos e credenciais
+.env
+.env.*
+credentials/
+*token.json
+*client_secret*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cutgen clip metrics",
+  "description": "Contrato entre cutgen-core e cutgen-agent. Todo clipe gerado pelo core precisa emitir um registro nesse formato. O agent so consome isso, sem saber como o corte foi feito.",
+  "type": "object",
+  "required": [
+    "clip_id",
+    "niche",
+    "source_url",
+    "duration_seconds",
+    "format",
+    "platform",
+    "published_at"
+  ],
+  "properties": {
+    "clip_id": {
+      "type": "string",
+      "description": "Identificador unico do clipe, estavel entre execucoes."
+    },
+    "niche": {
+      "type": "string",
+      "description": "Chave do nicho, corresponde a pasta em niches/<niche>/."
+    },
+    "source_url": {
+      "type": "string",
+      "description": "URL do video/live de origem, antes do corte."
+    },
+    "duration_seconds": {
+      "type": "number",
+      "description": "Duracao final do clipe em segundos."
+    },
+    "format": {
+      "type": "string",
+      "description": "Rotulo de formato aplicado pelo select/write (ex: causo, noticia, reacao). Vocabulario livre por nicho."
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["youtube_shorts", "instagram_reels", "instagram_post", "tiktok"]
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "pattern_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Nomes de patterns de knowledge/niches/<niche>/patterns/ usados na selecao/escrita deste clipe, se houver."
+    },
+    "performance": {
+      "type": "object",
+      "description": "Preenchido depois da publicacao pelo agent/collect. Ausente ate a primeira coleta.",
+      "properties": {
+        "views": { "type": "integer" },
+        "likes": { "type": "integer" },
+        "comments": { "type": "integer" },
+        "retention_pct": {
+          "type": "number",
+          "description": "Percentual medio assistido. So confiavel acima de um piso minimo de views definido pelo agent (amostra pequena = ruido)."
+        },
+        "collected_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
