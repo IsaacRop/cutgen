@@ -150,3 +150,59 @@ def write_reference_example(*, examples_dir: Path, info: dict, transcript: str, 
         encoding="utf-8",
     )
     return out
+
+
+def main():
+    import argparse
+
+    from cutgen_core.config import load_niche_config
+    from cutgen_core.transcribe import TranscribeConfig, transcribe_plain
+
+    parser = argparse.ArgumentParser(
+        description="Baixa uma referencia viral, transcreve e escreve o esqueleto em "
+                     "knowledge/niches/<niche>/examples/ (ou so baixa pra input/ com --no-analyze)."
+    )
+    parser.add_argument("url")
+    parser.add_argument("--niche", required=True)
+    parser.add_argument("--no-analyze", action="store_true",
+                         help="So baixa pra input/ (passo 1 do make-cut); nao transcreve nem escreve exemplo")
+    parser.add_argument("--input-dir", default="input")
+    parser.add_argument("--refs-dir", default="refs")
+    parser.add_argument("--examples-dir")
+    args = parser.parse_args()
+
+    niche_config = load_niche_config(args.niche)
+    download_config = (niche_config or {}).get("download", {})
+
+    if args.no_analyze:
+        path = fetch_source(args.url, Path(args.input_dir), download_config)
+        print(f"OK -> {path}")
+        return
+
+    refs_dir = Path(args.refs_dir)
+    download(args.url, refs_dir, download_config, write_info_json=True)
+    info = read_info_json(refs_dir)
+    video_path = _latest_media_file(refs_dir)
+
+    transcribe_config = TranscribeConfig.from_niche_config(niche_config)
+    transcript, language = transcribe_plain(video_path, transcribe_config)
+
+    examples_dir = (
+        Path(args.examples_dir) if args.examples_dir
+        else Path("knowledge") / "niches" / args.niche / "examples"
+    )
+    out = write_reference_example(
+        examples_dir=examples_dir,
+        info=info,
+        transcript=transcript,
+        language=language,
+        video_id=info["id"],
+        url=args.url,
+    )
+    print(f"OK -> {out}")
+    print(f"  {platform_of(args.url)} | @{info.get('uploader')} | views={info.get('view_count')} "
+          f"| likes={info.get('like_count')} | {info.get('duration')}s")
+
+
+if __name__ == "__main__":
+    main()
