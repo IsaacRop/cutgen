@@ -10,10 +10,10 @@ knowledge/niches/<niche>/examples/ a partir de metadados + uma transcricao
 ja pronta.
 """
 
-import datetime
 import json
 import re
 import subprocess
+from datetime import UTC, datetime
 from pathlib import Path
 
 DEFAULT_DOWNLOAD_CONFIG = {
@@ -130,7 +130,7 @@ def write_reference_example(*, examples_dir: Path, info: dict, transcript: str, 
         return "" if x is None else x
 
     examples_dir.mkdir(parents=True, exist_ok=True)
-    date = datetime.date.today().isoformat()
+    date = datetime.now(UTC).date().isoformat()
     title = info.get("title") or (info.get("description") or "")[:80]
     slug = slugify(title)
     out = examples_dir / f"{date}-{slug}-{video_id}.md"

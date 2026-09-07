@@ -207,9 +207,11 @@ def build_ffmpeg_command(*, video_path: Path, ass_path: Path, output_path: Path,
     if music_path:
         cmd += [
             "-filter_complex",
-            f"[0:a]loudnorm=I={config.voice_lufs}[voice];"
-            f"[1:a]loudnorm=I={config.music_lufs}[music];"
-            "[voice][music]amix=inputs=2:duration=first[aout]",
+            (
+                f"[0:a]loudnorm=I={config.voice_lufs}[voice];"
+                f"[1:a]loudnorm=I={config.music_lufs}[music];"
+                "[voice][music]amix=inputs=2:duration=first[aout]"
+            ),
             "-map", "0:v", "-map", "[aout]",
         ]
     else:

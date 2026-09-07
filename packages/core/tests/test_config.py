@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-
 from cutgen_core.config import load_niche_config
 
 

@@ -8,7 +8,7 @@ cutgen_agent.store.
 import json
 import sqlite3
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from cutgen_agent import store
 
@@ -26,7 +26,7 @@ def fetch_youtube_stats(video_id: str, api_key: str) -> dict:
         "views": int(stats.get("viewCount", 0)),
         "likes": int(stats["likeCount"]) if "likeCount" in stats else None,
         "comments": int(stats["commentCount"]) if "commentCount" in stats else None,
-        "collected_at": datetime.now(timezone.utc).isoformat(),
+        "collected_at": datetime.now(UTC).isoformat(),
     }
 
 

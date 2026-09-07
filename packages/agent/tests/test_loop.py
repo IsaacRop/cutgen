@@ -1,11 +1,10 @@
 import pytest
-
 from cutgen_agent import collect, promote, significance, store
 
-BASE_CLIP = dict(
-    niche="example-niche", source_url="https://youtu.be/x", duration_seconds=28.0,
-    format="causo", platform="youtube_shorts", published_at="2026-01-01T00:00:00Z",
-)
+BASE_CLIP = {
+    "niche": "example-niche", "source_url": "https://youtu.be/x", "duration_seconds": 28.0,
+    "format": "causo", "platform": "youtube_shorts", "published_at": "2026-01-01T00:00:00Z",
+}
 
 
 def test_store_rejects_incomplete_clip(tmp_path):
@@ -47,6 +46,14 @@ def _views(clip_id):
     }[clip_id]
 
 
+def _fake_fetch(views):
+    """Fecha sobre `views` como parametro (nao variavel de loop) pra fetch_fn ficar correto
+    mesmo que collect_and_store guarde a funcao pra chamar depois em vez de chamar na hora."""
+    def fetch_fn(_video_id, _api_key):
+        return {"views": views, "likes": None, "comments": None, "collected_at": "x"}
+    return fetch_fn
+
+
 def test_full_promotion_cycle(tmp_path):
     db_path = tmp_path / "agent.sqlite3"
     conn = store.open_db(db_path)
@@ -54,9 +61,7 @@ def test_full_promotion_cycle(tmp_path):
     for clip_id in ("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"):
         collect.collect_and_store(
             conn, clip_id, video_id=f"yt-{clip_id}", api_key="fake",
-            fetch_fn=lambda vid, key, v=_views(clip_id): {
-                "views": v, "likes": None, "comments": None, "collected_at": "x",
-            },
+            fetch_fn=_fake_fetch(_views(clip_id)),
         )
     clips = store.list_clips(conn, niche="example-niche")
     conn.close()

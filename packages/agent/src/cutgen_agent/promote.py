@@ -8,7 +8,7 @@ Fecha o loop que o GTclips real ainda faz manualmente via /consolidate: aqui
 a promocao acontece automaticamente a partir de performance medida.
 """
 
-from datetime import date
+from datetime import UTC, datetime
 from pathlib import Path
 
 from cutgen_agent import significance, store
@@ -49,7 +49,7 @@ def promote_pattern(perf: dict, *, niche: str, knowledge_dir: Path = Path("knowl
             pattern_id=perf["pattern_id"],
             confidence=confidence_for_sample(perf["sample_size"]),
             sample_size=perf["sample_size"],
-            updated=today or date.today().isoformat(),
+            updated=today or datetime.now(UTC).date().isoformat(),
             ratio=perf["ratio"],
             median_views=perf["median_views"],
             baseline_median=perf["baseline_median"],

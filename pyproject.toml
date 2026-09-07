@@ -9,6 +9,9 @@ dependencies = []
 # Cada pacote real (core, knowledge, agent, shared) tem seu proprio pyproject.toml
 # em packages/<nome>/, com suas proprias dependencias.
 
+[tool.uv]
+package = false
+
 [tool.uv.workspace]
 members = ["packages/*"]
 
@@ -17,7 +20,3 @@ cutgen-core = { workspace = true }
 cutgen-knowledge = { workspace = true }
 cutgen-agent = { workspace = true }
 cutgen-shared = { workspace = true }
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"

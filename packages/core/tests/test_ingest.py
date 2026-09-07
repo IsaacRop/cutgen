@@ -1,7 +1,6 @@
 import json
 
 import pytest
-
 from cutgen_core import ingest
 
 

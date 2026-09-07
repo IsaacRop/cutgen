@@ -1,7 +1,5 @@
-import os
 
 import pytest
-
 from cutgen_knowledge.llm.client import LLMConfig, render_input
 
 
